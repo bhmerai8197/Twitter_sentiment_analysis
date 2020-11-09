@@ -1,0 +1,2 @@
+# Twitter_sentiment_analysis
+The aim of the project is to find the sentiment and emotions of tweets. User can search any real time trending various tags or topics and then our system will retrieve tweets from twitter API and analyze that tweets and displaying their sentiment and emotion prediction on the interface including relative visualization. Project also including the model training to find the emotion of the tweets.
