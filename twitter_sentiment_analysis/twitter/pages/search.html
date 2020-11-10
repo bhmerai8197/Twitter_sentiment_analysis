@@ -1,0 +1,84 @@
+<html>
+<head>
+
+    <title>Analysis</title>
+    {% load static %}
+    <script src="http://vega.github.io/vega-editor/vendor/d3.min.js"></script>
+    <script src="http://vega.github.io/vega-editor/vendor/d3.geo.projection.min.js"></script>
+    <script src="http://vega.github.io/vega-editor/vendor/topojson.js"></script>
+    <script src="http://vega.github.io/vega-editor/vendor/d3.layout.cloud.js"></script>
+    <script src="http://vega.github.io/vega/vega.min.js"></script>
+
+    <style>
+    .button {
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+
+      margin-left:47%;
+      margin-bottom:00px;
+    }
+
+    .button1 {background-color: #4CAF50;
+        margin-left:8%;} /* Green */
+
+    .button2 {background-color: #4CAF50;
+        margin-left:60%;
+        margin-top: 0px;} /* Green */
+
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h2>Tweets on {{twitter_search}} </h2>
+    {% for x,y,tweet_emotion in Tweet_analysis %}
+
+        <p> Tweet: {{ x }}</p>
+
+        <p> Sentiment: {{ y }}</p>
+
+        <p> Emotion: {{ tweet_emotion }}</p>
+
+
+    {% endfor %}
+
+ </div>
+
+
+{% for items1 in common_word %}
+
+
+<div class="container">
+         <h2> Word count of Tweets  </h2>
+            <p>{{ items1 }}</p>
+
+</div>
+
+{% endfor %}
+
+
+<div class="container">
+         <h2> Total Positive Tweets:  {{cp}}</h2>
+        <h2> Total Negative Tweets: {{cneg}} </h2>
+        <h2> Total Neutral Tweets:  {{cn}}</h2>
+
+</div>
+
+<img src="{% static 'image/wc.png'%}" class="container">
+<div class="container">
+<button class="button button1" onclick="javascript:chart();">Chart for most common word</button>
+<button class="button button1" onclick="javascript:chart_1();">Chart for total emotion count</button>
+</div>
+<div class="chart" id="vis">
+</div>
+
+</body>
+</html>
+
