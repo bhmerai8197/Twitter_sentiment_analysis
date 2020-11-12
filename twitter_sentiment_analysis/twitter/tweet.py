@@ -24,10 +24,7 @@ from PIL import Image
 
 from wordcloud import WordCloud, STOPWORDS
 
-# Display the generated image:
-import matplotlib.pyplot as plt
-import io
-import urllib, base64
+
 
 try:
     import json
@@ -41,6 +38,7 @@ auth = tweepy.OAuthHandler(twitter_credentials.CONSUMER_KEY, twitter_credentials
 auth.set_access_token(twitter_credentials.ACCESS_TOKEN, twitter_credentials.ACCESS_TOKEN_SECRET)
 
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
+
 
 emoticons_str = r"""
     (?:
@@ -88,6 +86,16 @@ def tweet_prediction(text):
     return type_result
 
 
+# Function to convert
+def listToString(s):
+    # initialize an empty string
+    str1 = " "
+
+    # return string
+    return (str1.join(s))
+
+
+
 
 punctuation = list(string.punctuation)
 stop = stopwords.words('english') + punctuation + ['RT', 'via']
@@ -112,28 +120,27 @@ def data(search):
     common_word = []
     sentiment = []
     Tweet_analysis = []
-
-
     tweet_emotion = []
 
     cp = 0
     cn = 0
     cneg = 0
 
-    for search in tweepy.Cursor(api.search, q=search, lang='en').items(100):
+    for search in tweepy.Cursor(api.search, q=search, lang='en').items(10):
 
         terms_only = [term for term in preprocess(search._json['text']) if term not in stop and not term.startswith(('#','@','"','…','’'))]
 
-
         tweets.append(search._json['text'])
 
+        clean_tweet = listToString(terms_only)
 
-        predict = tweet_prediction(tweets)
+
+        predict = tweet_prediction(clean_tweet)
+
         label = np.argmax(predict, axis=1)[0]
         tweet_emotion.append(labels_dict[label])
 
-
-        analysis = TextBlob(search._json['text'])
+        analysis = TextBlob(clean_tweet)
 
         if analysis.sentiment[0] > 0:
             cp += 1
